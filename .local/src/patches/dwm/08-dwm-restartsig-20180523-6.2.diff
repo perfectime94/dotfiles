@@ -1,0 +1,105 @@
+diff -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-02-05 15:17:14.149787524 +0100
++++ b/config.def.h	2021-02-05 15:18:13.623118404 +0100
+@@ -126,6 +126,7 @@
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
++	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
+ };
+ 
+ /* button definitions */
+diff -u a/dwm.1 b/dwm.1
+--- a/dwm.1	2021-02-05 15:17:19.229787309 +0100
++++ b/dwm.1	2021-02-05 15:18:51.793116848 +0100
+@@ -142,6 +142,9 @@
+ .TP
+ .B Mod1\-Shift\-q
+ Quit dwm.
++.TP
++.B Mod1\-Control\-Shift\-q
++Restart dwm.
+ .SS Mouse commands
+ .TP
+ .B Mod1\-Button1
+@@ -155,6 +158,13 @@
+ .SH CUSTOMIZATION
+ dwm is customized by creating a custom config.h and (re)compiling the source
+ code. This keeps it fast, secure and simple.
++.SH SIGNALS
++.TP
++.B SIGHUP - 1
++Restart the dwm process.
++.TP
++.B SIGTERM - 15
++Cleanly terminate the dwm process.
+ .SH SEE ALSO
+ .BR dmenu (1),
+ .BR st (1)
+diff -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-02-05 15:17:26.983120313 +0100
++++ b/dwm.c	2021-02-05 15:21:45.116443130 +0100
+@@ -248,6 +248,8 @@
+ static void seturgent(Client *c, int urg);
+ static void showhide(Client *c);
+ static void sigchld(int unused);
++static void sighup(int unused);
++static void sigterm(int unused);
+ static void spawn(const Arg *arg);
+ static Monitor *systraytomon(Monitor *m);
+ static void tag(const Arg *arg);
+@@ -313,6 +315,7 @@
+ 	[UnmapNotify] = unmapnotify
+ };
+ static Atom wmatom[WMLast], netatom[NetLast], xatom[XLast];
++static int restart = 0;
+ static int running = 1;
+ static Cur *cursor[CurLast];
+ static Clr **scheme;
+@@ -1450,6 +1453,7 @@
+ 		}
+ 	}
+ 
++	if(arg->i) restart = 1;
+ 	running = 0;
+ }
+ 
+@@ -1888,6 +1892,9 @@
+ 	/* clean up any zombies immediately */
+ 	sigchld(0);
+ 
++	signal(SIGHUP, sighup);
++	signal(SIGTERM, sigterm);
++
+ 	/* init screen */
+ 	screen = DefaultScreen(dpy);
+ 	sw = DisplayWidth(dpy, screen);
+@@ -2020,6 +2027,20 @@
+ }
+ 
+ void
++sighup(int unused)
++{
++	Arg a = {.i = 1};
++	quit(&a);
++}
++
++void
++sigterm(int unused)
++{
++	Arg a = {.i = 0};
++	quit(&a);
++}
++
++void
+ spawn(const Arg *arg)
+ {
+ 	if (arg->v == dmenucmd)
+@@ -2706,6 +2727,7 @@
+ #endif /* __OpenBSD__ */
+ 	scan();
+ 	run();
++	if(restart) execvp(argv[0], argv);
+ 	cleanup();
+ 	XCloseDisplay(dpy);
+ 	return EXIT_SUCCESS;

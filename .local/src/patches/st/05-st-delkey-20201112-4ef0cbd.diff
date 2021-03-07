@@ -1,0 +1,21 @@
+diff -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-02-09 11:44:56.553509280 +0100
++++ b/config.def.h	2021-02-09 11:45:56.373511010 +0100
+@@ -280,7 +280,7 @@
+ 	{ XK_KP_Delete,     ControlMask,    "\033[3;5~",    +1,    0},
+ 	{ XK_KP_Delete,     ShiftMask,      "\033[2K",      -1,    0},
+ 	{ XK_KP_Delete,     ShiftMask,      "\033[3;2~",    +1,    0},
+-	{ XK_KP_Delete,     XK_ANY_MOD,     "\033[P",       -1,    0},
++   { XK_KP_Delete,     XK_ANY_MOD,     "\033[3~",      -1,    0},
+ 	{ XK_KP_Delete,     XK_ANY_MOD,     "\033[3~",      +1,    0},
+ 	{ XK_KP_Multiply,   XK_ANY_MOD,     "\033Oj",       +2,    0},
+ 	{ XK_KP_Add,        XK_ANY_MOD,     "\033Ok",       +2,    0},
+@@ -348,7 +348,7 @@
+ 	{ XK_Delete,        ControlMask,    "\033[3;5~",    +1,    0},
+ 	{ XK_Delete,        ShiftMask,      "\033[2K",      -1,    0},
+ 	{ XK_Delete,        ShiftMask,      "\033[3;2~",    +1,    0},
+-	{ XK_Delete,        XK_ANY_MOD,     "\033[P",       -1,    0},
++	{ XK_Delete,        XK_ANY_MOD,     "\033[3~",      -1,    0},
+ 	{ XK_Delete,        XK_ANY_MOD,     "\033[3~",      +1,    0},
+ 	{ XK_BackSpace,     XK_NO_MOD,      "\177",          0,    0},
+ 	{ XK_BackSpace,     Mod1Mask,       "\033\177",      0,    0},
