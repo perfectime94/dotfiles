@@ -8,3 +8,5 @@
 	editor = vim
 [commit]
 	gpgsign = true
+[alias]
+	cp = cherry-pick
