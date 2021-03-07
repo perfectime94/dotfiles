@@ -1,3 +1,15 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
+[submodule ".local/src/dwm"]
+	path = .local/src/dwm
+	url = git://git.suckless.org/dwm
+[submodule ".local/src/st"]
+	path = .local/src/st
+	url = git://git.suckless.org/st
+[submodule ".local/src/tabbed"]
+	path = .local/src/tabbed
+	url = git://git.suckless.org/tabbed
+[submodule ".local/src/dmenu"]
+	path = .local/src/dmenu
+	url = git://git.suckless.org/dmenu
