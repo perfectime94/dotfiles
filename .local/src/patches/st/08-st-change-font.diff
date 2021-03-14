@@ -1,0 +1,12 @@
+diff -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-03-14 10:05:34.637950385 +0100
++++ b/config.def.h	2021-03-14 10:06:01.495949093 +0100
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "SauceCodePro Nerd Font:size=11";
+ static int borderpx = 2;
+ 
+ /*
