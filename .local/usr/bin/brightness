@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+brightness=$(xbacklight -get)
+
+if [[ $brightness -le 15 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 15 && $brightness -le 30 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 30 && $brightness -le 45 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 45 && $brightness -le 60 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 60 && $brightness -le 75 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 75 && $brightness -le 90 ]]; then
+    echo " $brightness"
+elif [[ $brightness -gt 90 ]]; then
+    echo " $brightness"
+fi
