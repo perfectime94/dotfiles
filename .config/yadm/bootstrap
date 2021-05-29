@@ -30,3 +30,4 @@ ln -s  ~/.local/src/patches/dmenu /etc/portage/patches/x11-misc/dmenu
 ln -s  ~/.local/src/patches/tabbed /etc/portage/patches/x11-misc/tabbed
 ln -s  ~/.local/src/patches/dwm /etc/portage/patches/x11-wm/dwm
 ln -s  ~/.local/src/patches/st /etc/portage/patches/x11-terms/st
+ln -s  ~/.local/src/patches/dwmblocks /etc/portage/patches/x11-misc/dwmblocks
