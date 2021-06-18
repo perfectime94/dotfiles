@@ -1,0 +1,10 @@
+[user]
+	name = Lineu Martins
+	email = martinslineu@linuxmail.org
+	signingkey = 833DAD6F760A91A3
+[color]
+	ui = auto
+[core]
+	editor = vim
+[commit]
+	gpgsign = true
