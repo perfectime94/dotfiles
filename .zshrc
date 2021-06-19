@@ -99,3 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Enable gentoo autocompletion
+autoload -U compinit promptinit
+compinit
+promptinit; prompt gentoo
