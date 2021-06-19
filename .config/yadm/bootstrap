@@ -20,4 +20,4 @@ yadm fetch origin
 yadm push --set-upstream origin master
 
 # Submodules
-yadm submodule update
+yadm submodule update --recursive --init
