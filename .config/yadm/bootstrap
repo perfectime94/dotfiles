@@ -21,3 +21,6 @@ yadm push --set-upstream origin master
 
 # Submodules
 yadm submodule update --recursive --init
+
+# Set profile folders
+xdg-user-dirs-update
