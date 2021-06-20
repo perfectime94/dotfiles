@@ -1,7 +1,7 @@
 #!/bin/sh
 
 project=$1
-cd ~/.local/src/patches/$project
+cd ~/.local/src/$project
 for m in $(ls ~/.local/src/patches/$project); do
 	echo $m
 	if [[ $m == *"#"* ]]
