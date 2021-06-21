@@ -1,0 +1,3 @@
+defaults.pcm.!card S840
+defaults.pcm.!device 0
+defaults.ctl.!card S840
