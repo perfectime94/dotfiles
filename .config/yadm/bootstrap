@@ -15,7 +15,7 @@ gpg --import-ownertrust "$HOME/.gnupg/.exported-keyring"/ownertrust.txt
 
 # Change remote of repo and fetch new one
 yadm remote remove origin
-yadm remote add origin git@gitlab.com:lamp216/dotfiles.git
+yadm remote add origin git@github.com:perfectime94/dotfiles.git
 yadm fetch origin
 yadm push --set-upstream origin master
 
