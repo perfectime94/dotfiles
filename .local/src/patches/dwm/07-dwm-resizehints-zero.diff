@@ -1,0 +1,12 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h      2021-06-29 23:42:50.037644440 +0200
++++ b/config.def.h      2021-06-29 23:43:02.062643862 +0200
+@@ -42,7 +42,7 @@
+ /* layout(s) */
+ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+ static const int nmaster     = 1;    /* number of clients in master area */
+-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
++static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+ 
+ static const Layout layouts[] = {
+        /* symbol     arrange function */

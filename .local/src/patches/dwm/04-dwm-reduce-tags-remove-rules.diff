@@ -1,0 +1,21 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-06-29 23:02:10.718761756 +0200
++++ b/config.def.h	2021-06-29 23:03:13.723758726 +0200
+@@ -29,7 +29,7 @@
+ };
+ 
+ /* tagging */
+-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
++static const char *tags[] = { "1", "2", "3", "4", "5" };
+ 
+ static const Rule rules[] = {
+ 	/* xprop(1):
+@@ -37,8 +37,7 @@
+ 	 *	WM_NAME(STRING) = title
+ 	 */
+ 	/* class      instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+ };
+ 
+ /* layout(s) */
