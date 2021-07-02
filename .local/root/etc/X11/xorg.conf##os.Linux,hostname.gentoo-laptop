@@ -1,0 +1,111 @@
+Section "ServerFlags"
+	Option		"DefaultserverLayout"	"built-int"
+	Option		"XInerama"		"false"
+	Option		"AutoAddDevices"	"false"
+	Option		"UseDefaultFontPath"	"false"
+	Option		"AutoEnableDevices"	"false"
+EndSection
+
+Section "ServerLayout"
+	Identifier	"built-int"
+	Screen		0			"Screen0"
+	InputDevice	"keyboard"		"CoreKeyboard"
+	#InputDevice	"touchpad"		
+	InputDevice	"Logitech G305"		"CorePointer"
+	#InputDevice	"pointer"
+	InputDevice	"sonix"
+EndSection
+
+Section "Files"
+	ModulePath	"/usr/lib64/xorg/modules"
+	FontPath	"/usr/share/fonts/liberation-fonts"
+	FontPath	"/usr/share/fonts/nerd-fonts"
+	FontPath	"/usr/share/fonts/urw-fonts"
+EndSection
+
+Section "Module"
+	Load		"glx"
+	Load		"glamoregl"
+EndSection
+
+Section "InputDevice"
+	Identifier	"sonix"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-id/usb-SONiX_Gaming_Keyboard-event-kbd"
+	Option		"XkbLayout"		"es"
+	Option		"XkbLayout"		"qwerty"
+	
+EndSection
+
+Section "InputDevice"
+	Identifier	"keyboard"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/platform-i8042-serio-0-event-kbd"
+	Option		"XkbLayout"		"es"
+	Option		"XkbLayout"		"qwerty"
+EndSection
+
+Section "InputDevice"
+	Identifier	"touchpad"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/pci-0000:00:15.1-platform-i2c_designware.1-event-mouse"
+	Option		"Tapping"		"true"
+EndSection
+
+Section "InputDevice"
+	Identifier	"pointer"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/pci-0000:00:15.1-platform-i2c_designware.1-event-mouse"
+EndSection
+
+Section "InputDevice"
+	Identifier	"Logitech G305"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-id/usb-Logitech_USB_Receiver-if01-event-mouse"
+EndSection
+
+Section "Monitor"
+	Identifier	"Monitor0"
+	VendorName	"Monitor Vendor"
+	ModelName	"Monitor Model"
+EndSection
+
+Section "Device"
+	Identifier	"intel"
+	Driver		"modesetting"
+	BusID		"PCI:0:2:0"
+EndSection
+
+Section "Screen"
+	Identifier	"Screen0"
+	Device		"intel"
+	Monitor		"Monitor0"
+	SubSection "Display"
+		Viewport	0 0
+		Depth		8
+	EndSubSection
+EndSection
+
+Section "Monitor"
+        Identifier      "Monitor1"
+        VendorName      "BNQ"
+        ModelName       "7949"
+	Modeline "2560x1440"  241.50  2560 2608 2640 2720  1440 1443 1448 1481 +hsync -vsync
+	Option "PreferredMode" "2560x1440"
+EndSection
+
+Section "Device"
+        Identifier      "intel1"
+        Driver          "modesetting"
+        BusID           "PCI:0:2:0"
+EndSection
+
+Section "Screen"
+        Identifier      "Screen1"
+        Device          "intel1"
+        Monitor         "Monitor1"
+        SubSection "Display"
+                Viewport        0 0
+                Depth           8
+        EndSubSection
+EndSection
