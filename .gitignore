@@ -1,4 +1,6 @@
 Descargas/*
+Documentos/*
+IdeaProjects/*
 .gnupg/*
 .thunderbird/*
 .mozilla/*
@@ -41,3 +43,13 @@ Descargas/*
 .zcompdump-gentoo-desktop-5.8
 .zcompdump-localhost-5.8
 .zsh_history
+## Node
+.npm
+.v8flags*
+## Maven
+.m2
+.mysql_history
+.zcompdump*
+.config/Popcorn-Time
+.config/google-chrome
+.local/share/Trash
