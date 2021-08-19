@@ -44,4 +44,8 @@ Charging)
         echo " $capacity"
     fi
     ;;
+
+Full)
+    echo " Full"
+    ;;
 esac
