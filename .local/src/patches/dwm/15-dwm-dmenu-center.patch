@@ -1,0 +1,12 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 19:01:33.273367560 +0200
++++ b/config.def.h	2021-08-19 19:02:23.563278074 +0200
+@@ -83,7 +83,7 @@
+ 
+ /* commands */
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
++static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
+ static const char *termcmd[]  = { "st", NULL };
+ 
+ static Key keys[] = {

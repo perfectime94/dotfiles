@@ -1,0 +1,107 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 00:18:45.356574069 +0200
++++ b/config.def.h	2021-08-19 00:21:27.853405692 +0200
+@@ -41,6 +41,7 @@
+ 
+ /* tagging */
+ static const char *tags[] = { "1", "2", "3", "4", "5" };
++static const char *defaulttagapps[] = { "st", NULL, NULL, NULL, NULL };
+ 
+ static const Rule rules[] = {
+ 	/* xprop(1):
+@@ -84,6 +85,7 @@
+ 	/* modifier                     key        function        argument */
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+ 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
++	{ MODKEY,                       XK_s,      spawndefault,   {0} },
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+ 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+ 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+diff --color -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-08-19 00:18:48.396578841 +0200
++++ b/dwm.c	2021-08-19 00:23:37.970389755 +0200
+@@ -234,6 +234,7 @@
+ static void setclientstate(Client *c, long state);
+ static void setfocus(Client *c);
+ static void setfullscreen(Client *c, int fullscreen);
++static void setlasttag(int tagbit);
+ static void setlayout(const Arg *arg);
+ static void setcfact(const Arg *arg);
+ static void setmfact(const Arg *arg);
+@@ -244,6 +245,7 @@
+ static void sighup(int unused);
+ static void sigterm(int unused);
+ static void spawn(const Arg *arg);
++static void spawndefault();
+ static Monitor *systraytomon(Monitor *m);
+ static void tag(const Arg *arg);
+ static void tagmon(const Arg *arg);
+@@ -316,6 +318,9 @@
+ static Monitor *mons, *selmon;
+ static Window root, wmcheckwin;
+ 
++static int lastchosentag[8];
++static int previouschosentag[8];
++
+ static int useargb = 0;
+ static Visual *visual;
+ static int depth;
+@@ -1762,6 +1767,24 @@
+ }
+ 
+ void
++setlasttag(int tagbit) {
++	const int mon = selmon->num;
++	if (tagbit > 0) {
++		int i = 1, pos = 0;
++		while (!(i & tagbit)) {
++			i = i << 1;
++			++pos;
++		}
++		previouschosentag[mon] = lastchosentag[mon];
++		lastchosentag[mon] = pos;
++	} else {
++		const int tempTag = lastchosentag[mon];
++		lastchosentag[mon] = previouschosentag[mon];
++		previouschosentag[mon] = tempTag;
++	}
++}
++
++void
+ setlayout(const Arg *arg)
+ {
+ 	if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
+@@ -1977,6 +2000,17 @@
+ }
+ 
+ void
++spawndefault()
++{
++	const char *app = defaulttagapps[lastchosentag[selmon->num]];
++	if (app) {
++		const char *defaultcmd[] = {app, NULL};
++		Arg a = {.v = defaultcmd};
++		spawn(&a);
++	}
++}
++
++void
+ tag(const Arg *arg)
+ {
+ 	if (selmon->sel && arg->ui & TAGMASK) {
+@@ -2086,6 +2120,7 @@
+ 
+ 	if (newtagset) {
+ 		selmon->tagset[selmon->seltags] = newtagset;
++		setlasttag(newtagset);
+ 		focus(NULL);
+ 		arrange(selmon);
+ 	}
+@@ -2514,6 +2549,7 @@
+ {
+ 	if ((arg->ui & TAGMASK) == selmon->tagset[selmon->seltags])
+ 		return;
++	setlasttag(arg->ui);
+ 	selmon->seltags ^= 1; /* toggle sel tagset */
+ 	if (arg->ui & TAGMASK)
+ 		selmon->tagset[selmon->seltags] = arg->ui & TAGMASK;

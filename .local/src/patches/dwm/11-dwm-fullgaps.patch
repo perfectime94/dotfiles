@@ -1,0 +1,115 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 00:47:15.570509134 +0200
++++ b/config.def.h	2021-08-19 00:47:57.280446221 +0200
+@@ -2,6 +2,7 @@
+ 
+ /* appearance */
+ static const unsigned int borderpx  = 1;        /* border pixel of windows */
++static const unsigned int gappx     = 15;        /* gaps between windows */
+ static const unsigned int snap      = 32;       /* snap pixel */
+ static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+ static const unsigned int systrayonleft = 0;   	/* 0: systray in the right corner, >0: systray on left of status text */
+@@ -110,6 +111,9 @@
+ 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+ 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+ 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
++	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
++	{ MODKEY,                       XK_plus,   setgaps,        {.i = +1 } },
++	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = 0  } },	
+ 	TAGKEYS(                        XK_1,                      0)
+ 	TAGKEYS(                        XK_2,                      1)
+ 	TAGKEYS(                        XK_3,                      2)
+diff --color -u a/dwm.1 b/dwm.1
+--- a/dwm.1	2021-08-19 00:47:18.953837422 +0200
++++ b/dwm.1	2021-08-19 00:48:23.610400319 +0200
+@@ -140,6 +140,16 @@
+ .B Mod1\-Control\-[1..n]
+ Add/remove all windows with nth tag to/from the view.
+ .TP
++.B Mod1\--
++Decrease the gaps around windows.
++.TP
++.B Mod1\-=
++Increase the gaps around windows.
++.TP
++.B Mod1\-Shift-=
++Reset the gaps around windows to
++.BR 0 .
++.TP
+ .B Mod1\-Shift\-q
+ Quit dwm.
+ .TP
+diff --color -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-08-19 00:47:23.037164657 +0200
++++ b/dwm.c	2021-08-19 00:50:50.246766654 +0200
+@@ -141,6 +141,7 @@
+ 	int by;               /* bar geometry */
+ 	int mx, my, mw, mh;   /* screen size */
+ 	int wx, wy, ww, wh;   /* window area  */
++	int gappx;            /* gaps between windows */
+ 	unsigned int seltags;
+ 	unsigned int sellt;
+ 	unsigned int tagset[2];
+@@ -234,6 +235,7 @@
+ static void setclientstate(Client *c, long state);
+ static void setfocus(Client *c);
+ static void setfullscreen(Client *c, int fullscreen);
++static void setgaps(const Arg *arg);
+ static void setlasttag(int tagbit);
+ static void setlayout(const Arg *arg);
+ static void setcfact(const Arg *arg);
+@@ -787,6 +789,7 @@
+ 	m->nmaster = nmaster;
+ 	m->showbar = showbar;
+ 	m->topbar = topbar;
++	m->gappx = gappx;
+ 	m->lt[0] = &layouts[0];
+ 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
+ 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
+@@ -1767,6 +1770,16 @@
+ }
+ 
+ void
++setgaps(const Arg *arg)
++{
++	if ((arg->i == 0) || (selmon->gappx + arg->i < 0))
++		selmon->gappx = 0;
++	else
++		selmon->gappx += arg->i;
++	arrange(selmon);
++}
++
++void
+ setlasttag(int tagbit) {
+ 	const int mon = selmon->num;
+ 	if (tagbit > 0) {
+@@ -2047,19 +2060,19 @@
+ 	if (n > m->nmaster)
+ 		mw = m->nmaster ? m->ww * m->mfact : 0;
+ 	else
+-		mw = m->ww;
+-	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++		mw = m->ww - m->gappx;
++	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if (i < m->nmaster) {
+-			h = (m->wh - my) * (c->cfact / mfacts);
+-			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+-			if (my + HEIGHT(c) < m->wh)
+-				my += HEIGHT(c);
++			h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
++			resize(c, m->wx + m->gappx, m->wy + my, mw - (2*c->bw) - m->gappx, h - (2*c->bw), 0);
++			if (my + HEIGHT(c) + m->gappx < m->wh)
++				my += HEIGHT(c) + m->gappx;
+ 	mfacts -= c->cfact;
+ 		} else {
+-			h = (m->wh - ty) * (c->cfact / sfacts);
+-			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+-			if (ty + HEIGHT(c) < m->wh)
+-				ty += HEIGHT(c);
++			h = (m->wh - ty) * (c->cfact / sfacts) - m->gappx;
++			resize(c, m->wx + mw + m->gappx, m->wy + ty, m->ww - mw - (2*c->bw) - 2*m->gappx, h - (2*c->bw), 0);
++			if (ty + HEIGHT(c) + m->gappx < m->wh)
++				ty += HEIGHT(c) + m->gappx;
+ 	sfacts -= c->cfact;
+ 		}
+ }

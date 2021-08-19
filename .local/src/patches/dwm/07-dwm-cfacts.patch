@@ -1,0 +1,101 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 00:05:39.377139235 +0200
++++ b/config.def.h	2021-08-19 00:06:23.577058437 +0200
+@@ -92,6 +92,9 @@
+ 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+ 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+ 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
++	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
++	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
++	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
+ 	{ MODKEY,                       XK_Return, zoom,           {0} },
+ 	{ MODKEY,                       XK_Tab,    view,           {0} },
+ 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+diff --color -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-08-19 00:05:45.950460819 +0200
++++ b/dwm.c	2021-08-19 00:08:16.516834590 +0200
+@@ -108,6 +108,7 @@
+ struct Client {
+ 	char name[256];
+ 	float mina, maxa;
++	float cfact;
+ 	int x, y, w, h;
+ 	int oldx, oldy, oldw, oldh;
+ 	int basew, baseh, incw, inch, maxw, maxh, minw, minh;
+@@ -234,6 +235,7 @@
+ static void setfocus(Client *c);
+ static void setfullscreen(Client *c, int fullscreen);
+ static void setlayout(const Arg *arg);
++static void setcfact(const Arg *arg);
+ static void setmfact(const Arg *arg);
+ static void setup(void);
+ static void seturgent(Client *c, int urg);
+@@ -1204,6 +1206,7 @@
+ 	c->w = c->oldw = wa->width;
+ 	c->h = c->oldh = wa->height;
+ 	c->oldbw = wa->border_width;
++	c->cfact = 1.0;
+ 
+ 	updatetitle(c);
+ 	if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
+@@ -1768,6 +1771,23 @@
+ 		drawbar(selmon);
+ }
+ 
++void setcfact(const Arg *arg) {
++	float f;
++	Client *c;
++
++	c = selmon->sel;
++
++	if(!arg || !c || !selmon->lt[selmon->sellt]->arrange)
++		return;
++	f = arg->f + c->cfact;
++	if(arg->f == 0.0)
++		f = 1.0;
++	else if(f < 0.25 || f > 4.0)
++		return;
++	c->cfact = f;
++	arrange(selmon);
++}
++
+ /* arg > 1.0 will set mfact absolutely */
+ void
+ setmfact(const Arg *arg)
+@@ -1974,9 +1994,15 @@
+ tile(Monitor *m)
+ {
+ 	unsigned int i, n, h, mw, my, ty;
++	float mfacts = 0, sfacts = 0;
+ 	Client *c;
+ 
+-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
++		if (n < m->nmaster)
++			mfacts += c->cfact;
++		else
++			sfacts += c->cfact;
++	}
+ 	if (n == 0)
+ 		return;
+ 
+@@ -1986,15 +2012,17 @@
+ 		mw = m->ww;
+ 	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+ 		if (i < m->nmaster) {
+-			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
++			h = (m->wh - my) * (c->cfact / mfacts);
+ 			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+ 			if (my + HEIGHT(c) < m->wh)
+ 				my += HEIGHT(c);
++	mfacts -= c->cfact;
+ 		} else {
+-			h = (m->wh - ty) / (n - i);
++			h = (m->wh - ty) * (c->cfact / sfacts);
+ 			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
+ 			if (ty + HEIGHT(c) < m->wh)
+ 				ty += HEIGHT(c);
++	sfacts -= c->cfact;
+ 		}
+ }
+ 

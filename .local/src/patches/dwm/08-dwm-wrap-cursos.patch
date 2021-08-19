@@ -1,0 +1,21 @@
+diff --color -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-08-19 00:13:26.869590208 +0200
++++ b/dwm.c	2021-08-19 00:14:15.312980592 +0200
+@@ -987,6 +987,9 @@
+ 	unfocus(selmon->sel, 0);
+ 	selmon = m;
+ 	focus(NULL);
++	if (selmon->sel)
++		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
++
+ }
+ 
+ void
+@@ -1012,6 +1015,7 @@
+ 	if (c) {
+ 		focus(c);
+ 		restack(selmon);
++		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
+ 	}
+ }
+ 

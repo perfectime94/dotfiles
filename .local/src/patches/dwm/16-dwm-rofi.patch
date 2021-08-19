@@ -1,0 +1,16 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-21 21:10:33.146713569 +0200
++++ b/config.def.h	2021-08-21 21:12:12.177503278 +0200
+@@ -85,10 +85,12 @@
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+ static const char *dmenucmd[] = { "dmenu_run", "-c", "-l", "10", NULL };
+ static const char *termcmd[]  = { "st", NULL };
++static const char *rofi[] = {"rofi", "-show", "drun", "-show-icons", NULL};
+ 
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
++	{ MODKEY,                       XK_r,      spawn,          {.v = rofi } },
+ 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+ 	{ MODKEY,                       XK_s,      spawndefault,   {0} },
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },

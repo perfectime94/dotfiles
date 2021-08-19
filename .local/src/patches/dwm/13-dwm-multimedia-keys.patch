@@ -1,0 +1,27 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 12:38:03.033667381 +0200
++++ b/config.def.h	2021-08-19 12:43:33.206600767 +0200
+@@ -1,5 +1,8 @@
+ /* See LICENSE file for copyright and license details. */
+ 
++/* for XF86 Media Keys */
++#include <X11/XF86keysym.h>
++
+ /* appearance */
+ static const unsigned int borderpx  = 1;        /* border pixel of windows */
+ static const unsigned int gappx     = 5;        /* gaps between windows */
+@@ -113,7 +116,13 @@
+ 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+ 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+ 	{ MODKEY,                       XK_plus,   setgaps,        {.i = +1 } },
+-	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = 0  } },	
++	{ MODKEY|ShiftMask,             XK_minus,  setgaps,        {.i = 0  } },
++	{ 0,XF86XK_AudioMute,					   spawn,          SHCMD("amixer set Master toggle; kill -46 $(pidof dwmblocks)") },
++	{ 0,XF86XK_AudioMicMute,				   spawn,          SHCMD("amixer set Capture toggle; kill -46 $(pidof dwmblocks)") },
++	{ 0,XF86XK_AudioLowerVolume,			   spawn,          SHCMD("amixer set Master 5%- unmute; kill -46 $(pidof dwmblocks)") },
++	{ 0,XF86XK_AudioRaiseVolume,			   spawn,          SHCMD("amixer set Master 5%+ unmute; kill -46 $(pidof dwmblocks)") },
++	{ MODKEY, XK_F3,						   spawn,          SHCMD("xbacklight -inc 10; kill -45 $(pidof dwmblocks)") },
++	{ MODKEY, XK_F2,						   spawn,          SHCMD("xbacklight -dec 10; kill -45 $(pidof dwmblocks)") },
+ 	TAGKEYS(                        XK_1,                      0)
+ 	TAGKEYS(                        XK_2,                      1)
+ 	TAGKEYS(                        XK_3,                      2)

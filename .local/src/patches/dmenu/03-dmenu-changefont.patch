@@ -1,0 +1,12 @@
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-19 19:29:00.990435486 +0200
++++ b/config.def.h	2021-08-19 19:29:27.173722230 +0200
+@@ -8,7 +8,7 @@
+ 
+ /* -fn option overrides fonts[0]; default X11 font or font set */
+ static const char *fonts[] = {
+-	"monospace:size=10"
++	"Hack Nerd Font:size=10"
+ };
+ static const char *prompt      = NULL;      /* -p  option; prompt to the left of input field */
+ static const char *colors[SchemeLast][2] = {

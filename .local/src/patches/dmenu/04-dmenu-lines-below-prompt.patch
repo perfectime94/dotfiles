@@ -1,0 +1,12 @@
+diff --color -u a/dmenu.c b/dmenu.c
+--- a/dmenu.c	2021-08-19 19:35:12.349774603 +0200
++++ b/dmenu.c	2021-08-19 19:35:31.876406519 +0200
+@@ -172,7 +172,7 @@
+ 	if (lines > 0) {
+ 		/* draw vertical list */
+ 		for (item = curr; item != next; item = item->right)
+-			drawitem(item, x, y += bh, mw - x);
++			drawitem(item, x - ((prompt && *prompt) ? TEXTW(prompt) - lrpad / 4 : 0), y += bh, mw - x);
+ 	} else if (matches) {
+ 		/* draw horizontal list */
+ 		x += inputw;

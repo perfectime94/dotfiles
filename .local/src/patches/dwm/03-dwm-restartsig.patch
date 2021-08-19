@@ -1,48 +1,18 @@
-From 2991f37f0aaf44b9f9b11e7893ff0af8eb88f649 Mon Sep 17 00:00:00 2001
-From: Christopher Drelich <cd@cdrakka.com>
-Date: Wed, 23 May 2018 22:50:38 -0400
-Subject: [PATCH] Modifies quit to handle restarts and adds SIGHUP and SIGTERM
- handlers.
-
-Modified quit() to restart if it receives arg .i = 1
-MOD+CTRL+SHIFT+Q was added to confid.def.h to do just that.
-
-Signal handlers were handled for SIGHUP and SIGTERM.
-If dwm receives these signals it calls quit() with
-arg .i = to 1 or 0, respectively.
-
-To restart dwm:
-MOD+CTRL+SHIFT+Q
-or
-kill -HUP dwmpid
-
-To quit dwm cleanly:
-MOD+SHIFT+Q
-or
-kill -TERM dwmpid
----
- config.def.h |  1 +
- dwm.1        | 10 ++++++++++
- dwm.c        | 22 ++++++++++++++++++++++
- 3 files changed, 33 insertions(+)
-
-diff --git a/config.def.h b/config.def.h
-index a9ac303..e559429 100644
---- a/config.def.h
-+++ b/config.def.h
-@@ -94,6 +94,7 @@ static Key keys[] = {
+diff --color -u a/config.def.h b/config.def.h
+--- a/config.def.h	2021-08-18 23:05:54.737515261 +0200
++++ b/config.def.h	2021-08-18 23:08:45.543469911 +0200
+@@ -108,6 +108,7 @@
  	TAGKEYS(                        XK_8,                      7)
  	TAGKEYS(                        XK_9,                      8)
  	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
++	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} },
  };
  
  /* button definitions */
-diff --git a/dwm.1 b/dwm.1
-index 13b3729..36a331c 100644
---- a/dwm.1
-+++ b/dwm.1
-@@ -142,6 +142,9 @@ Add/remove all windows with nth tag to/from the view.
+diff --color -u a/dwm.1 b/dwm.1
+--- a/dwm.1	2021-08-18 23:05:47.007535378 +0200
++++ b/dwm.1	2021-08-18 23:08:20.346934584 +0200
+@@ -142,6 +142,9 @@
  .TP
  .B Mod1\-Shift\-q
  Quit dwm.
@@ -52,7 +22,7 @@ index 13b3729..36a331c 100644
  .SS Mouse commands
  .TP
  .B Mod1\-Button1
-@@ -155,6 +158,13 @@ Resize focused window while dragging. Tiled windows will be toggled to the float
+@@ -155,6 +158,13 @@
  .SH CUSTOMIZATION
  dwm is customized by creating a custom config.h and (re)compiling the source
  code. This keeps it fast, secure and simple.
@@ -66,20 +36,19 @@ index 13b3729..36a331c 100644
  .SH SEE ALSO
  .BR dmenu (1),
  .BR st (1)
-diff --git a/dwm.c b/dwm.c
-index bb95e26..286eecd 100644
---- a/dwm.c
-+++ b/dwm.c
-@@ -205,6 +205,8 @@ static void setup(void);
+diff --color -u a/dwm.c b/dwm.c
+--- a/dwm.c	2021-08-18 23:05:51.074191625 +0200
++++ b/dwm.c	2021-08-18 23:07:42.150452078 +0200
+@@ -236,6 +236,8 @@
  static void seturgent(Client *c, int urg);
  static void showhide(Client *c);
  static void sigchld(int unused);
 +static void sighup(int unused);
 +static void sigterm(int unused);
  static void spawn(const Arg *arg);
+ static Monitor *systraytomon(Monitor *m);
  static void tag(const Arg *arg);
- static void tagmon(const Arg *arg);
-@@ -260,6 +262,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
+@@ -299,6 +301,7 @@
  	[UnmapNotify] = unmapnotify
  };
  static Atom wmatom[WMLast], netatom[NetLast], xatom[XLast];
@@ -87,7 +56,7 @@ index bb95e26..286eecd 100644
  static int running = 1;
  static Cur *cursor[CurLast];
  static Clr **scheme;
-@@ -1248,6 +1251,7 @@ propertynotify(XEvent *e)
+@@ -1390,6 +1393,7 @@
  void
  quit(const Arg *arg)
  {
@@ -95,7 +64,7 @@ index bb95e26..286eecd 100644
  	running = 0;
  }
  
-@@ -1536,6 +1540,9 @@ setup(void)
+@@ -1723,6 +1727,9 @@
  	/* clean up any zombies immediately */
  	sigchld(0);
  
@@ -105,7 +74,7 @@ index bb95e26..286eecd 100644
  	/* init screen */
  	screen = DefaultScreen(dpy);
  	sw = DisplayWidth(dpy, screen);
-@@ -1637,6 +1644,20 @@ sigchld(int unused)
+@@ -1834,6 +1841,20 @@
  }
  
  void
@@ -126,14 +95,11 @@ index bb95e26..286eecd 100644
  spawn(const Arg *arg)
  {
  	if (arg->v == dmenucmd)
-@@ -2139,6 +2160,7 @@ main(int argc, char *argv[])
- 	setup();
+@@ -2548,6 +2569,7 @@
+ #endif /* __OpenBSD__ */
  	scan();
  	run();
 +	if(restart) execvp(argv[0], argv);
  	cleanup();
  	XCloseDisplay(dpy);
  	return EXIT_SUCCESS;
--- 
-2.7.4
-
