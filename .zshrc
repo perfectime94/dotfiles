@@ -104,3 +104,7 @@ source $ZSH/oh-my-zsh.sh
 autoload -U compinit promptinit
 compinit
 promptinit; prompt gentoo
+
+## Java apps 
+wmname LG3D
+AWT_TOOLKIT=MToolkit; export AWT_TOOLKIT
