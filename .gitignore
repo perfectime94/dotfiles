@@ -52,4 +52,5 @@ IdeaProjects/*
 .zcompdump*
 .config/Popcorn-Time
 .config/google-chrome
+.config/discord
 .local/share/Trash
