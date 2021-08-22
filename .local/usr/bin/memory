@@ -1,0 +1,5 @@
+#!/bin/zsh
+
+memory=$(free -m | awk 'FNR==2{ printf "%.0f%\n", $3*100/$2 }')
+
+print " $memory"

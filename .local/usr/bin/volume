@@ -1,19 +1,25 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
-sound=$(amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%')
-muted=$(amixer get Master | awk '{print $6}' | tr -d '[]' | tail -n1)
+case $BUTTON in
+    1) amixer set -q Master toggle ;;
+    4) amixer set -q Master 5%+ unmute ;;
+	5) amixer set -q Master 5%- unmute ;;
+esac
+
+sound=$(amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]%' | tr -d " ")
+muted=$(amixer get Master | awk '{print $6}' | tr -d '[]' | tail -n1 | tr -d " ")
 
 case $muted in
 on)
     if [[ $sound -le 33 ]]; then
-        echo "奄 $sound"
+        print "奄 $sound"
     elif [[ $sound -gt 33 && $sound -le 66 ]]; then
-        echo "奔 $sound"
+        print "奔 $sound"
     elif [[ $sound -gt 66 ]]; then
-        echo "墳 $sound"
+        print "墳 $sound"
     fi
     ;;
 off)
-    echo "ﱝ Muted"
+    print "ﱝ Muted"
     ;;
 esac
