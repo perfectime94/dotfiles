@@ -6,3 +6,9 @@
 	signingkey = 2A9C5FFFCA4DF2EF2AC6C3DF8108A9ED3AB46D0D
 [core]
 	editor = vim
+[color]
+	ui = auto
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg2

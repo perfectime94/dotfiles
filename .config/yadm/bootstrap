@@ -1,4 +1,23 @@
 #!/bin/sh
 
+# Decrypt keys
+yadm decrypt
+
+# Initialize ssh agent
+eval "$(ssh-agent -s)"
+
+# add ssh key to agent
+ssh-add ~/.ssh/id_ed25519
+
+# Import gpg keys
+gpg --import "$HOME/.gnupg/.exported-keyring"/*.asc
+gpg --import-ownertrust "$HOME/.gnupg/.exported-keyring"/ownertrust.txt
+
+# Change remote of repo and fetch new one
+yadm remote remove origin
+yadm remote add origin git@github.com:perfectime94/dotfiles.git
+yadm fetch origin
+yadm push --set-upstream origin master
+
 # Submodules
 yadm submodule update --recursive --init
