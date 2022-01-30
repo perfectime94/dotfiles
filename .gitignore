@@ -1,0 +1,13 @@
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.cache/
+.dbus
+.lesshst
+.local/share/yadm
+.local/share/xorg
+.mozilla/
+.viminfo
+.Xauthority
+.zsh_history
