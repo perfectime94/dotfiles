@@ -1,0 +1,63 @@
+Section "ServerFlags"
+	Option		"DefaultserverLayout"	"built-int"
+	Option		"Xinerama"		"false"
+	Option		"AutoAddDevices"	"false"
+	Option		"UseDefaultFontPath"	"false"
+	Option		"AutoEnableDevices"	"false"
+EndSection
+
+Section "ServerLayout"
+	Identifier	"built-int"
+	Screen		0			"Screen0"
+	InputDevice	"keyboard"		"CoreKeyboard"
+	InputDevice	"touchpad"		"CorePointer"
+EndSection
+
+Section "Files"
+	ModulePath	"/usr/lib64/xorg/modules"
+	FontPath	"/usr/share/fonts/liberation-fonts"
+	FontPath	"/usr/share/fonts/nerd-fonts"
+	FontPath	"/usr/share/fonts/urw-fonts"
+EndSection
+
+Section "Module"
+	Load		"glx"
+	Load		"glamoregl"
+EndSection
+
+Section "InputDevice"
+	Identifier	"keyboard"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/platform-i8042-serio-0-event-kbd"
+	Option		"XkbLayout"		"es"
+	Option		"XkbLayout"		"qwerty"
+EndSection
+
+Section "InputDevice"
+	Identifier	"touchpad"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/platform-i8042-serio-1-event-mouse"
+	Option		"Tapping"		"true"
+EndSection
+
+Section "Monitor"
+	Identifier	"Monitor0"
+	VendorName	"Monitor Vendor"
+	ModelName	"Monitor Model"
+EndSection
+
+Section "Device"
+	Identifier	"intel"
+	Driver		"modesetting"
+	BusID		"PCI:0:2:0"
+EndSection
+
+Section "Screen"
+	Identifier	"Screen0"
+	Device		"intel"
+	Monitor		"Monitor0"
+	SubSection "Display"
+		Viewport	0 0
+		Depth		8
+	EndSubSection
+EndSection
