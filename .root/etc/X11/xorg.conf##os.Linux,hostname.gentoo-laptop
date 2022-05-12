@@ -11,6 +11,7 @@ Section "ServerLayout"
 	Screen		0			"Screen0"
 	InputDevice	"keyboard"		"CoreKeyboard"
 	InputDevice	"touchpad"		"CorePointer"
+	InputDevice	"G305"
 EndSection
 
 Section "Files"
@@ -38,6 +39,12 @@ Section "InputDevice"
 	Driver		"evdev"
 	Option		"Device"		"/dev/input/by-path/platform-i8042-serio-1-event-mouse"
 	Option		"Tapping"		"true"
+EndSection
+
+Section "InputDevice"
+	Identifier	"G305"
+	Driver		"evdev"
+	Option		"Device"		"/dev/input/by-path/pci-0000:00:14.0-usb-0:3:1.1-event-mouse"
 EndSection
 
 Section "Monitor"
