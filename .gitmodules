@@ -1,3 +1,6 @@
 [submodule ".shells/zsh/oh-my-zsh"]
 	path = .shells/zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule ".local/share/nvim/site/pack/packer/start/packer.nvim"]
+	path = .local/share/nvim/site/pack/packer/start/packer.nvim
+	url = https://github.com/wbthomason/packer.nvim
