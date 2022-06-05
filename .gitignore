@@ -7,6 +7,7 @@
 .config/dconf/user
 .config/lutris
 .config/menus/applications-merged/
+.config/google-chrome
 .dbus
 .dwm.log
 dwm.log
@@ -19,6 +20,7 @@ Games
 .local/share/lutris
 .local/share/mime
 .local/share/recently-used.xbel
+.local/share/Trash
 .local/share/xorg
 .local/share/yadm
 .mozilla/
