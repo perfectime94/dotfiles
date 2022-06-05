@@ -1,0 +1,129 @@
+env:
+  TERM: alacritty
+
+window:
+  dimensions:
+    columns: 140
+    lines: 40
+  padding:
+    x: 8
+    y: 8
+  dynamic_padding: true
+  decorations: full
+  title: Alacritty
+  dynamic_title: true
+  class:
+    instance: Alacritty
+    general: Alacritty
+  gtk_theme_variant: Dark
+
+scrolling:
+  history: 10000
+  multiplier: 3
+
+font:
+  normal:
+    family: Hack Nerd Font Mono
+    style: Regular
+  bold:
+    family: Hack Nerd Font Mono
+    style: Bold
+  italic:
+    family: Hack Nerd Font Mono
+    style: Italic
+  bold_italic:
+    family: Hack Nerd Font Mono
+    style: Bold Italic
+  size: 10
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  use_thin_strokes: false
+draw_bold_text_with_bright_colors: true
+
+colors:
+  primary:
+    background: '0x1d1f21'
+    foreground: '0xc5c8c6'
+  normal:
+    black:   '0x282a2e'
+    red:     '0xa54242'
+    green:   '0x8c9440'
+    yellow:  '0xde935f'
+    blue:    '0x5f819d'
+    magenta: '0x85678f'
+    cyan:    '0x5e8d87'
+    white:   '0x707880'
+  bright:
+    black:   '0x373b41'
+    red:     '0xcc6666'
+    green:   '0xb5bd68'
+    yellow:  '0xf0c674'
+    blue:    '0x81a2be'
+    magenta: '0xb294bb'
+    cyan:    '0x8abeb7'
+    white:   '0xc5c8c6'
+  cursor:
+    text: CellBackground
+    cursor: CellForeground
+  vi_mode_cursor:
+    text: CellBackground
+    cursor: CellForeground
+  search:
+    matches:
+      foreground: '#000000'
+      background: '#ffffff'
+    focused_match:
+      foreground: '#ffffff'
+      background: '#000000'
+    bar:
+      background: '#c5c8c6'
+      foreground: '#1d1f21'
+  hints:
+    start:
+      foreground: '#1d1f21'
+      background: '#e9ff5e'
+    end:
+      foreground: '#e9ff5e'
+      background: '#1d1f21'
+  line_indicator:
+    foreground: None
+    background: None
+  selection:
+    text: CellBackground
+    background: CellForeground
+  indexed_colors:
+    - { index: 16, color: '0xdc9656' }
+    - { index: 17, color: '0xa16946' }
+    - { index: 18, color: '0x282828' }
+    - { index: 19, color: '0x383838' }
+    - { index: 20, color: '0xb8b8b8' }
+    - { index: 21, color: '0xe8e8e8' }
+
+background_opacity: 0.7
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  save_to_clipboard: false
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always #Never, Off, On, Always
+  vi_mode_style: None
+  blink_interval: 750
+  unfocused_hollow: true
+  thickness: 0.15
+
+live_config_reload: true
+
+working_directory: ~
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
+
+key_bindings:
+  - { key: N, mods: Control, action: SpawnNewInstance }
