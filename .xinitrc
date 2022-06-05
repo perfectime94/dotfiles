@@ -1,1 +1,1 @@
-exec dbus-launch --sh-syntax --exit-with-session dwm > ~/.dwm.log
+exec dbus-launch --sh-syntax --exit-with-session awesome
