@@ -1,3 +1,9 @@
 [user]
 	email = lineumartins001@gmail.com
 	name = perfectime94
+	signingkey = BC0F3A513DBDA833
+[core]
+	editor = nvim
+[commit]
+	gpgsign = true
+
