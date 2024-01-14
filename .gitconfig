@@ -4,6 +4,13 @@
 	signingkey = BC0F3A513DBDA833
 [core]
 	editor = nvim
+	autocrlf = input
 [commit]
 	gpgsign = true
 
+[safe]
+	directory = /var/db/repos/perfectime94
+[gpg]
+	program = /usr/bin/gpg
+[init]
+	defaultBranch = main
