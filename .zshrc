@@ -4,11 +4,6 @@ export EDITOR="nvim"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-ZSH_THEME="arrow"
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -65,8 +60,6 @@ ZSH_THEME="arrow"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
-
 # Rose Pine
 if [ "$TERM" = "linux" ]; then
 	/bin/echo -e "
@@ -90,3 +83,5 @@ if [ "$TERM" = "linux" ]; then
 	# get rid of artifacts
 	clear
 fi
+
+eval "$(starship init zsh)"
