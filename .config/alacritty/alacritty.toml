@@ -10,19 +10,19 @@ shape = "Underline"
 size = 14.0
 
 [font.bold]
-family = "Fira Code"
+family = "FiraCode Nerd Font Mono"
 style = "Bold"
 
 [font.bold_italic]
-family = "Fira Code"
+family = "FiraCode Nerd Font Mono"
 style = "Bold Italic"
 
 [font.italic]
-family = "Fira Code"
+family = "FiraCode Nerd Font Mono"
 style = "Italic"
 
 [font.normal]
-family = "Fira Code"
+family = "FiraCode Nerd Font Mono"
 style = "Regular"
 
 [[keyboard.bindings]]
