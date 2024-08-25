@@ -1,0 +1,6 @@
+[user]
+	name = Lineu Martins
+	email = lineumartins001@gmail.com
+	signingkey = E741DC916318C1C1
+[commit]
+	gpgsign = true
