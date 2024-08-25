@@ -1,0 +1,10 @@
+.config/JetBrains
+.cargo
+.config/google-chrome
+.local/share/JetBrains
+.local/share/Steam
+.local/share/TelegramDesktop
+.local/share/applications
+.local/share/yadm/repo.git
+.m2
+.cache
