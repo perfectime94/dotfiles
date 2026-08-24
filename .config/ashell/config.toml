@@ -3,26 +3,26 @@ outputs = "All"
 position = "Top"
 app_launcher_cmd = "hyprlauncher"
 
-# Colores Principales Dracula
-primary_color = "#bd93f9"   # Purple (El color firma de Dracula)
-success_color = "#50fa7b"   # Green
-text_color = "#f8f8f2"      # Foreground (Blanco cremoso)
+# Colores Catppuccin Mocha
+primary_color = "#cba6f7"   # Mauve (el color firma de Catppuccin)
+success_color = "#a6e3a1"   # Green
+text_color = "#cdd6f4"      # Text
 
 # Configuración de Workspaces
-workspace_colors = [ "#bd93f9", "#ff79c6" ]         # Purple y Pink
-special_workspace_colors = [ "#8be9fd", "#50fa7b" ] # Cyan y Green
+workspace_colors = [ "#cba6f7", "#f5c2e7" ]         # Mauve y Pink
+special_workspace_colors = [ "#89dceb", "#a6e3a1" ] # Sky y Green
 
 [appearance.background_color]
-base = "#282a36"   # Background (Oscuro principal)
-weak = "#44475a"   # Current Line/Selection (Gris azulado)
-strong = "#6272a4" # Comment (Azul grisáceo más claro)
+base = "#1e1e2e"   # Base
+weak = "#313244"   # Surface0
+strong = "#585b70" # Surface2
 
 [appearance.secondary_color]
-base = "#191a21"   # Background más oscuro para contraste
+base = "#181825"   # Mantle, mas oscuro para contraste
 
 [appearance.danger_color]
-base = "#ff5555"   # Red
-weak = "#ffb86c"   # Orange
+base = "#f38ba8"   # Red
+weak = "#fab387"   # Orange
 
 [modules]
 left = [ [ "Workspaces" ] ]
