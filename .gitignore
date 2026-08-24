@@ -54,3 +54,6 @@ Vídeos/
 .local/share/hyprlauncher/
 .local/share/nvim/
 .local/share/recently-used.xbel
+
+# enlace al binario de Claude Code (apunta a .local/share/claude, ya ignorado)
+.local/bin/claude
