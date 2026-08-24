@@ -1,7 +1,7 @@
 log_level = "warn"
 outputs = "All"
 position = "Top"
-app_launcher_cmd = "walker"
+app_launcher_cmd = "hyprlauncher"
 
 # Colores Principales Dracula
 primary_color = "#bd93f9"   # Purple (El color firma de Dracula)
