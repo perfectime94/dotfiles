@@ -1,3 +1,8 @@
+-- Paleta oficial del port catppuccin/hyprland (26 colores de Mocha).
+-- dofile con ruta absoluta: Hyprland no expone package.path al config,
+-- asi que un require() normal no encontraria el modulo.
+local ctp = dofile(os.getenv("HOME") .. "/.config/hypr/catppuccin-mocha.lua")
+
 ------------------
 ---- MONITORS ----
 ------------------
@@ -14,13 +19,14 @@ local terminal    = "alacritty"
 local fileManager = "dolphin"
 local menu        = "hyprlauncher"
 
-
 -------------------
 ---- AUTOSTART ----
 -------------------
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function() hl.exec_cmd("gentoo-pipewire-launcher") end)
 hl.on("hyprland.start", function() hl.exec_cmd("ashell") end)
+hl.on("hyprland.start", function() hl.exec_cmd("/usr/libexec/hyprpolkitagent") end)
+
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
 --
@@ -34,7 +40,26 @@ hl.on("hyprland.start", function() hl.exec_cmd("ashell") end)
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
+-- Requeridas por el wiki de Gentoo: los portales XDG las usan para elegir
+-- que implementacion cargar. Sin XDG_CURRENT_DESKTOP el portal de Hyprland
+-- no se selecciona.
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_TYPE",    "wayland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+
+-- hyprqt6engine sustituye a qt6ct: da tema nativo de Hyprland a las apps Qt6.
+-- El nombre lo registra /usr/lib64/qt6/plugins/platformthemes/libhyprqt6engine.so
+-- Sin esto, hyprpolkitagent y demas apps Qt6 usan el estilo por defecto.
+hl.env("QT_QPA_PLATFORMTHEME", "hyprqt6engine")
 hl.env("XCURSOR_SIZE", "24")
+-- Los temas de nordzy-cursors estan SEPARADOS por formato: Nordzy-hyprcursors
+-- solo tiene hyprcursors/ y Nordzy-cursors solo cursors/. Poner el mismo
+-- nombre en ambas variables deja una de las dos apuntando a un tema sin el
+-- formato que necesita, y el cursor desaparece en esas aplicaciones.
+--   hyprcursor -> SVG, escala sin pixelar (Hyprland y Wayland nativo)
+--   XCursor    -> mapas de bits (XWayland: Boosteroid)
+hl.env("HYPRCURSOR_THEME", "Nordzy-hyprcursors-catppuccin-mocha-mauve")
+hl.env("XCURSOR_THEME",    "Nordzy-catppuccin-mocha-mauve")
 hl.env("HYPRCURSOR_SIZE", "24")
 
 
@@ -79,8 +104,10 @@ hl.config({
         border_size = 2,
 
         col = {
-            active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
-            inactive_border = "rgba(595959aa)",
+            -- Catppuccin Mocha: mauve -> pink en el activo, surface1 en el inactivo
+            active_border   = { colors = {"rgba(" .. ctp.mauveAlpha .. "ee)",
+                                          "rgba(" .. ctp.pinkAlpha  .. "ee)"}, angle = 45 },
+            inactive_border = "rgba(" .. ctp.surface1Alpha .. "aa)",
         },
 
         -- Set to true to enable resizing windows by clicking and dragging on borders and gaps
@@ -264,6 +291,16 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+
+-- Herramientas del ecosistema Hyprland
+-- hyprprop: "xprop para Hyprland". Clic en una ventana y te da class/title,
+-- que es justo lo que hace falta para escribir window_rule.
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("hyprprop"))
+-- Centro de volumen y panel de informacion del sistema
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("hyprpwcenter"))
+hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd("hyprsysteminfo"))
+-- Alterna el filtro de luz azul
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("hyprctl hyprsunset identity || hyprsunset -t 4000"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
