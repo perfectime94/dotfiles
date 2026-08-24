@@ -26,6 +26,14 @@ local menu        = "hyprlauncher"
 hl.on("hyprland.start", function() hl.exec_cmd("gentoo-pipewire-launcher") end)
 hl.on("hyprland.start", function() hl.exec_cmd("ashell") end)
 hl.on("hyprland.start", function() hl.exec_cmd("/usr/libexec/hyprpolkitagent") end)
+-- Fondo de pantalla
+hl.on("hyprland.start", function() hl.exec_cmd("hyprpaper") end)
+-- Inactividad: atenuar, bloquear, apagar pantalla, suspender
+hl.on("hyprland.start", function() hl.exec_cmd("hypridle") end)
+-- Filtro de luz azul a 4000K
+hl.on("hyprland.start", function() hl.exec_cmd("hyprsunset -t 4000") end)
+-- Reacciona a eventos del compositor (ver events.sh)
+hl.on("hyprland.start", function() hl.exec_cmd("hyprevents -f " .. os.getenv("HOME") .. "/.config/hypr/events.sh") end)
 
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
