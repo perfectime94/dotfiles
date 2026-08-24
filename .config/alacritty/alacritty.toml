@@ -1,5 +1,5 @@
 general.import = [
-   "~/.config/alacritty/dracula.toml"
+   "~/.config/alacritty/catppuccin-mocha.toml"
 ]
 
 [env]
