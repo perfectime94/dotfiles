@@ -1,3 +1,41 @@
 .local/share/yadm/repo.git
 .config/google-chrome
 .cache
+Proyectos
+Descargas
+
+# --- Secretos: los gestiona `yadm encrypt` -> .local/share/yadm/archive.
+# Ignorarlos aqui evita commitearlos en claro por accidente.
+.ssh/
+.gnupg/
+.pki/
+
+# --- Historiales y estado con posible material sensible
+.bash_history
+.claude/
+.claude.json
+.wget-hsts
+# cookie de autenticacion de PulseAudio/PipeWire
+.config/pulse/
+.local/state/
+
+# --- Cache y estado volatil de aplicaciones
+# 300M de cache
+.config/discord/
+# base binaria de GSettings: no versionable con sentido
+.config/dconf/
+# geometria de ventana, no configuracion
+.config/pavucontrol.ini
+.dbus/
+.w3m/
+.config/procps/
+.config/rc/
+
+# --- Datos de usuario (XDG), no configuracion
+Documentos/
+Escritorio/
+Imágenes/
+Música/
+Plantillas/
+Público/
+Vídeos/
