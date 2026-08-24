@@ -39,3 +39,18 @@ Música/
 Plantillas/
 Público/
 Vídeos/
+
+# --- ~/.local/share: estado de aplicaciones.
+# No se ignora .local/share/ entero porque ahi vive el archivo cifrado
+# de yadm (.local/share/yadm/archive), que si esta versionado.
+# Llavero de sesion de gnome-keyring: sensible
+.local/share/keyrings/
+# 327M de estado de Claude Code
+.local/share/claude/
+# .desktop autogenerados por las propias apps (Boosteroid se lo escribe solo)
+.local/share/applications/
+.local/share/Boosteroid Games S.R.L./
+.local/share/hyprland/
+.local/share/hyprlauncher/
+.local/share/nvim/
+.local/share/recently-used.xbel
