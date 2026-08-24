@@ -1,0 +1,88 @@
+# Colores del port oficial catppuccin/dunst (mocha): acento azul #89b4fa y
+# criticas en melocoton #fab387. El resto del escritorio usa acento mauve,
+# asi que dunst quedara con un acento distinto a proposito.
+# Estructura (Cantarell, offset para la barra de ashell, layer overlay,
+# iconos) es propia: el port solo define colores.
+#   base #1e1e2e   surface0 #313244   text #cdd6f4
+#   mauve #cba6f7  peach #fab387      red #f38ba8   overlay1 #7f849c
+
+[global]
+    monitor = 0
+    follow = mouse
+    width = (300, 450)
+    height = (0, 300)
+    origin = top-right
+    offset = (12, 52)          # deja hueco a la barra de ashell arriba
+    scale = 0
+    notification_limit = 5
+
+    progress_bar = true
+    progress_bar_height = 8
+    progress_bar_frame_width = 1
+    progress_bar_min_width = 150
+    progress_bar_max_width = 300
+
+    indicate_hidden = yes
+    transparency = 5
+    separator_height = 2
+    padding = 12
+    horizontal_padding = 14
+    frame_width = 2
+    highlight = "#89b4fa"      # blue, del port oficial
+    separator_color = frame
+    corner_radius = 10
+    gap_size = 6
+
+    sort = urgency_descending
+    idle_threshold = 120
+
+    # Cantarell para la interfaz, igual que GTK y Hyprland
+    font = Cantarell 11
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    word_wrap = yes
+    ellipsize = middle
+    ignore_newline = no
+    show_indicators = yes
+
+    enable_recursive_icon_lookup = true
+    icon_theme = Adwaita
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 64
+
+    sticky_history = yes
+    history_length = 20
+    browser = /usr/bin/google-chrome-stable
+    always_run_script = true
+    corner_radius = 10
+    ignore_dbusclose = false
+
+    # Wayland
+    layer = overlay
+    force_xwayland = false
+
+    mouse_left_click = do_action, close_current
+    mouse_middle_click = close_all
+    mouse_right_click = context
+
+[urgency_low]
+    background  = "#1e1e2e"    # base
+    foreground  = "#cdd6f4"    # text
+    frame_color = "#89b4fa"    # blue
+    timeout = 5
+
+[urgency_normal]
+    background  = "#1e1e2e"    # base
+    foreground  = "#cdd6f4"    # text
+    frame_color = "#89b4fa"    # blue
+    timeout = 8
+
+[urgency_critical]
+    background  = "#1e1e2e"    # base
+    foreground  = "#cdd6f4"    # text
+    frame_color = "#fab387"    # peach
+    timeout = 0                # las criticas no se van solas
