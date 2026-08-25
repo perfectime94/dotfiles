@@ -30,7 +30,7 @@
     equalizer, adc_power_management]
   _battery: 4100
   _modelId: B36900000000
-  _sensitive: {backlight: false, divert-keys: true, fn-swap: false}
+  _sensitive: {backlight: false, backlight_level: false, divert-keys: true, fn-swap: false}
   _serial: 033FA77B
   _unitId: 033FA77B
   _wpid: B369
@@ -38,9 +38,9 @@
   backlight_duration_hands_in: 10
   backlight_duration_hands_out: 10
   backlight_duration_powered: 10
-  backlight_level: 4
+  backlight_level: 3
   change-host: null
   disable-keyboard-keys: {1: false, 8: false, 16: false}
   divert-keys: {226: 0, 227: 0, 229: 0, 231: 0, 232: 0, 233: 0, 259: 0, 264: 0, 266: 0, 279: 0, 284: 0}
-  fn-swap: false
+  fn-swap: true
   multiplatform: 0
