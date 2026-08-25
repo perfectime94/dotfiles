@@ -1,0 +1,15 @@
+#!/bin/sh
+# Toggle the blue-light filter.
+#
+# hyprsunset 0.4.0 reports "temperature" as the configured value, NOT the one
+# in effect: after `hyprctl hyprsunset identity` it still answers 4000, so the
+# temperature cannot be used to tell the two states apart. We keep the state
+# ourselves in a stamp file instead.
+STAMP="${XDG_RUNTIME_DIR:-/tmp}/hyprsunset.identity"
+TEMP=4000
+
+if [ -e "$STAMP" ]; then
+    hyprctl hyprsunset temperature "$TEMP" >/dev/null && rm -f "$STAMP"
+else
+    hyprctl hyprsunset identity >/dev/null && : > "$STAMP"
+fi

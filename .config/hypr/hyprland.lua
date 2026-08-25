@@ -308,7 +308,7 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("hyprprop"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd("hyprsysteminfo"))
 -- Alterna el filtro de luz azul
-hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("hyprctl hyprsunset identity || hyprsunset -t 4000"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/hyprsunset-toggle"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
