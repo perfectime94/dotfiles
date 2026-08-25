@@ -1,0 +1,11 @@
+# imv no tiene puerto oficial en catppuccin.com/ports, asi que la paleta va a
+# mano. Solo expone dos colores: fondo y texto de la barra.
+[options]
+background = 1e1e2e
+overlay_text_color = cdd6f4
+overlay_background_color = 181825
+overlay_background_alpha = e6
+overlay_font = FiraCode Nerd Font Mono:10
+overlay = true
+upscaling_method = linear
+suppress_default_binds = false
