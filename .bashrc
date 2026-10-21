@@ -51,4 +51,5 @@ if [ "$TERM" = "linux" ]; then
 	printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
 	clear
 fi
+
 export PATH="$HOME/.local/bin:$PATH"

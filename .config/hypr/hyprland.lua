@@ -6,17 +6,29 @@ local ctp = dofile(os.getenv("HOME") .. "/.config/hypr/catppuccin-mocha.lua")
 ------------------
 ---- MONITORS ----
 ------------------
-hl.monitor({output = "eDP-1", mode = "preferred", position = "auto-center-right", scale = 1})
-hl.monitor({output = "DP-2", mode = "preferred", position = "auto-center-left", scale = 1.33})
+-- ASUS TUF A18: el panel interno lo dibuja la 780M (card0 -> eDP-1). Las
+-- salidas externas HDMI-A-1 y DP-9 cuelgan de la GB206 (card1), no de la
+-- iGPU: llegan al escritorio por reverse-PRIME.
+-- "HDM-A-1" del portatil anterior era una errata, ese output no existe.
+-- El conector del panel es eDP-2, NO eDP-1: el panel esta cableado a las dos
+-- GPU (hay MUX) y aquamarine numera los eDP a lo largo de las dos tarjetas.
+-- Verificado con `hyprctl monitors`: eDP-2 = AU Optronics B180UAN01.2.
+hl.monitor({output = "eDP-2",    mode = "preferred", position = "auto-center-right", scale = 1})
+-- BenQ EL2870U, 28" 4K. A escala 1 la interfaz sale minuscula.
+-- 1.333333 = 4/3 exacto: 3840/(4/3) = 2880 y 2160/(4/3) = 1620, sin pixeles
+-- fraccionarios, que es lo que Hyprland exige para no avisar y reajustar.
+hl.monitor({output = "HDMI-A-1", mode = "preferred", position = "auto-center-left",  scale = 1.333333})
+-- Cualquier otra salida (DP-9 por USB-C/Thunderbolt) con valores por defecto
+hl.monitor({output = "", mode = "preferred", position = "auto", scale = 1})
 
 
 
----------------------
+---------------------:
 ---- MY PROGRAMS ----
 ---------------------
 -- Set programs that you use
 local terminal    = "alacritty"
-local fileManager = "dolphin"
+local fileManager = "pcmanfm"
 local menu        = "hyprlauncher"
 
 -------------------
@@ -34,6 +46,16 @@ hl.on("hyprland.start", function() hl.exec_cmd("hypridle") end)
 hl.on("hyprland.start", function() hl.exec_cmd("hyprsunset -t 4000") end)
 -- Reacciona a eventos del compositor (ver events.sh)
 hl.on("hyprland.start", function() hl.exec_cmd("hyprevents -f " .. os.getenv("HOME") .. "/.config/hypr/events.sh") end)
+-- asusd-user: demonio de sesion de asusctl. asusd (root) lleva ventiladores,
+-- perfiles y bateria; los efectos de Aura por usuario los lleva este.
+hl.on("hyprland.start", function() hl.exec_cmd("asusd-user") end)
+-- cliphist: guarda el historial del portapapeles. wl-paste --watch se queda
+-- escuchando y mete cada copia en la base de datos.
+hl.on("hyprland.start", function() hl.exec_cmd("wl-paste --type text --watch cliphist store") end)
+hl.on("hyprland.start", function() hl.exec_cmd("wl-paste --type image --watch cliphist store") end)
+-- GUI de asusctl en la bandeja de ashell. --background la deja cerrada,
+-- solo el icono. Si no la quieres, borra esta linea.
+hl.on("hyprland.start", function() hl.exec_cmd("rog-control-center --background --autostart") end)
 
 -- Autostart necessary processes (like notifications daemons, status bars, etc.)
 -- Or execute your favorite apps at launch like this:
@@ -59,6 +81,18 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -- El nombre lo registra /usr/lib64/qt6/plugins/platformthemes/libhyprqt6engine.so
 -- Sin esto, hyprpolkitagent y demas apps Qt6 usan el estilo por defecto.
 hl.env("QT_QPA_PLATFORMTHEME", "hyprqt6engine")
+-- Graficos hibridos: Hyprland debe dibujar en la 780M, no en la NVIDIA.
+-- La numeracion de /dev/dri/cardN no es estable: al cambiar de kernel la 780M
+-- paso de card0 a card2 y card0 desaparecio.
+-- OJO: aqui NO valen las rutas de /dev/dri/by-path/. AQ_DRM_DEVICES separa la
+-- lista por ':' y esos nombres llevan ':' dentro (pci-0000:66:00.0-card), asi
+-- que aquamarine parte la ruta en trozos y no arranca. Los alias gpu-amd y
+-- gpu-nvidia los crea /etc/udev/rules.d/70-gpu-alias.rules: estables y sin ':'.
+-- La NVIDIA va la segunda para que HDMI-A-1 y DP-9 sigan estando disponibles.
+hl.env("AQ_DRM_DEVICES", "/dev/dri/gpu-amd:/dev/dri/gpu-nvidia")
+-- Decodificacion de video por hardware en la 780M (VCN 4.0.2)
+hl.env("LIBVA_DRIVER_NAME", "radeonsi")
+
 hl.env("XCURSOR_SIZE", "24")
 -- Los temas de nordzy-cursors estan SEPARADOS por formato: Nordzy-hyprcursors
 -- solo tiene hyprcursors/ y Nordzy-cursors solo cursors/. Poner el mismo
@@ -309,6 +343,12 @@ hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("hyprpwcenter"))
 hl.bind(mainMod .. " + SHIFT + I", hl.dsp.exec_cmd("hyprsysteminfo"))
 -- Alterna el filtro de luz azul
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd(os.getenv("HOME") .. "/.local/bin/hyprsunset-toggle"))
+-- hyprpicker: cuentagotas de color. -a copia el valor al portapapeles.
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("hyprpicker -a"))
+-- Historial del portapapeles. hyprlauncher --dmenu lee la lista por stdin,
+-- asi que no hace falta rofi/wofi para el selector.
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd(
+    "sh -c 'cliphist list | hyprlauncher --dmenu | cliphist decode | wl-copy'"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
@@ -415,4 +455,21 @@ hl.window_rule({
     idle_inhibit      = "focus",
     -- El stream tiene relacion de aspecto fija: al redimensionar, respetarla.
     keep_aspect_ratio = true,
+})
+
+-- Bandeja propia de Wine. Cuando no encuentra un systray XEmbed (en Wayland
+-- no hay), explorer.exe dibuja el suyo: una ventana flotante de 160x20 sin
+-- titulo. Verificado con `hyprctl clients -j`.
+-- No se puede desactivar desde Wine, asi que se fija discreta en la esquina
+-- inferior derecha y se ancla para tenerla a mano al minimizar Battle.net.
+hl.window_rule({
+    name  = "wine-systray",
+    match = { class = "^explorer\\.exe$", title = "^$", xwayland = true },
+
+    float       = true,
+    pin         = true,
+    move        = "100%-180 100%-40",
+    border_size = 0,
+    no_shadow   = true,
+    no_focus    = true,
 })

@@ -4,17 +4,18 @@
 
 event_monitorremoved() {
     # MONITORNAME
-    [ "$MONITORNAME" = "DP-2" ] || return 0
-    # Dock fuera: probablemente en bateria. Perfil de ahorro y sin blur.
+    # Salidas externas del A18: HDMI-A-1 y DP-9 (las dos en la GB206).
+    case "$MONITORNAME" in HDMI-A-1|DP-9) ;; *) return 0 ;; esac
+    # Monitor fuera: probablemente en bateria. Perfil de ahorro y sin blur.
     powerprofilesctl set power-saver 2>/dev/null
     hyprctl keyword decoration:blur:enabled false >/dev/null 2>&1
-    notify-send -a hyprevents "Dock desconectado" "Perfil: power-saver, blur off" 2>/dev/null
+    notify-send -a hyprevents "Monitor externo desconectado" "Perfil: power-saver, blur off" 2>/dev/null
 }
 
 event_monitoradded() {
     # MONITORNAME
-    [ "$MONITORNAME" = "DP-2" ] || return 0
+    case "$MONITORNAME" in HDMI-A-1|DP-9) ;; *) return 0 ;; esac
     powerprofilesctl set balanced 2>/dev/null
     hyprctl keyword decoration:blur:enabled true >/dev/null 2>&1
-    notify-send -a hyprevents "Dock conectado" "Perfil: balanced, blur on" 2>/dev/null
+    notify-send -a hyprevents "Monitor externo conectado" "Perfil: balanced, blur on" 2>/dev/null
 }
